@@ -271,7 +271,7 @@ impl DeflateStream {
         }
     }
 
-    fn deflate(&mut self) -> bool {
+    fn inflate(&mut self) -> bool {
         loop {
             let (success, done) = match (self.bits(1), self.bits(2)) {
                 (Some(last), Some(comp_type)) => {
@@ -309,7 +309,7 @@ fn main() {
     let bytes = io::stdin().read_whole_stream();
     let bufReader = @BufReader::new(bytes);
     let mut decoder = new(bufReader as @Reader);
-    if(decoder.deflate()) {
+    if(decoder.inflate()) {
         print(fmt!("Success: %u bytes", decoder.writeBuf.len()));
     } else {
         print("Failed");
